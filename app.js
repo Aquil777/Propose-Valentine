@@ -362,18 +362,16 @@ I'm not sure what life could bring you. I'm not sure if dreams do come true. I'm
         button.classList.add('fade-out');
         setTimeout(() => button.remove(), 2000);
 
-            setTimeout(() => {
+            uify.addEventListener('ended', () => {
     try {
-        instrumental.currentTime = lastTime;
         instrumental.play().then(() => {
-            console.log("Instrumental retomado do ponto salvo!");
+            console.log("Instrumental resumed after UIFY ended.");
         }).catch(err => {
-            console.warn("Erro ao tentar retomar o instrumental:", err);
+            console.warn("Error resuming instrumental:", err);
         });
     } catch (e) {
-        console.warn("Erro geral ao tentar tocar o instrumental:", e);
+        console.warn("General error resuming instrumental:", e);
     }
-}, 100000); 
-    });
+});
 
 });

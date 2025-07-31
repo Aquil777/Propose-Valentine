@@ -1,0 +1,140 @@
+body {  
+ background-color: #111;    
+ margin: 0;  
+ overflow: hidden;  
+ background-repeat: no-repeat;  
+}  
+
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; 
+    flex-wrap: wrap; /* Permite que os elementos quebrem linha em telas menores */
+}
+
+#canvas {
+    max-width: 100%; /* Garante que o canvas nunca ultrapasse a largura da tela */
+    height: auto;
+    flex: 1; /* O canvas ocupa mais espaço disponível */
+}
+
+#message {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #fff;
+    width: min(90%, 600px); 
+    line-height: 1.6;
+    white-space: pre-line;
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: top 3s ease-out, opacity 3s ease-out;
+    text-shadow: 0 0 5px #ff007f;
+    z-index: 20;
+}
+
+#message.show {
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}
+
+
+.heart-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18vw;
+  height: 18vw;
+  max-width: 100px;
+  max-height: 100px;
+  min-width: 60px;
+  min-height: 60px;
+  background: #FF007f;
+  color: white;
+  clip-path: polygon(
+    50% 15%, 61% 5%, 75% 0%, 88% 5%,
+    100% 18%, 100% 31%, 94% 43%, 50% 90%,
+    6% 43%, 0% 31%, 0% 18%, 12% 5%,
+    25% 0%, 39% 5%
+  );
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 25px #FF007f;
+  text-shadow: 0 0 15px #fff;
+  animation: pulse 1.3s infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.2;
+  font-family: 'Dancing Script', cursive;
+}
+
+.heart-button span {
+  transform: translateY(-10px);
+}
+
+.heart-button.fade-out {
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Canvas e texto ficam em colunas */
+        align-items: center;
+    }
+
+    #message {
+        font-size: 16px; /* Reduz o tamanho do texto em telas menores */
+        max-width: 90%; /* Garante que o texto não ultrapasse a largura da tela */
+        text-align: center; /* Centraliza o texto */
+        z-index: 20;
+    }
+
+    .heart-button{
+        height:auto;
+        width: auto;
+    }
+
+      #canvas {
+    height: 100vh; /* ocupa a altura total da tela */
+    width: 100vw;  /* ocupa a largura total da tela */
+  }
+}
+
+/* Responsividade extra para telas muito pequenas */
+@media (max-width: 480px) {
+  .heart-button {
+    width: 25vw;
+    height: 25vw;
+    min-width: 50px;
+    min-height: 50px;
+    font-size: 0.9rem;
+  }
+
+  #message {
+    font-size: 12px; /* Reduz o tamanho do texto em telas muito pequenas */
+  }
+
+  #canvas {
+    height: 100vh; /* ocupa a altura total da tela */
+    width: 100vw;  /* ocupa a largura total da tela */
+  }
+}
+
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.15); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}

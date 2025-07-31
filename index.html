@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dp.css">
+</head>
+<body>
+    
+
+<audio id="instrumental" preload="auto" loop>
+  <source src="instrumental.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+
+<audio id="uify" class="song">
+    <source src="UIFY.mp3" type="audio/mpeg">
+    Your browser isn't invited for super fun audio time.
+</audio>
+
+
+
+<div class="container">
+ <canvas id="canvas" width="1400" height="600"> </canvas>
+ <button id="uifyButton" class="heart-button" onclick="showMessage()"><span>I LOVE YOU</span></button>
+ <div id="message" class="hidden"></div>
+</div>
+
+
+<!-- js here -->
+    <script src="app.js"></script>
+</body>
+</html>

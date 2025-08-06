@@ -1,11 +1,10 @@
-
 var canvas = document.getElementById("canvas");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // Initialize the GL context
-var gl = canvas.getContext('webgl');
+var gl = canvas.getContext("webgl");
 if (!gl) {
   console.error("Unable to initialize WebGL.");
 }
@@ -174,30 +173,29 @@ void main(){
 
 //************** Utility functions **************
 
-window.addEventListener('resize', onWindowResize, false);
+window.addEventListener("resize", onWindowResize, false);
 
-function onWindowResize(){
-    var baseScale = 0.000013;
-if (window.innerWidth < 768) {
+function onWindowResize() {
+  var baseScale = 0.000013;
+  if (window.innerWidth < 768) {
     baseScale *= 2.0;
-}
-gl.uniform1f(scaleFactorHandle, baseScale);
+  }
+  gl.uniform1f(scaleFactorHandle, baseScale);
 
-  canvas.width  = window.innerWidth;
+  canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   gl.viewport(0, 0, canvas.width, canvas.height);
   gl.uniform1f(widthHandle, window.innerWidth);
   gl.uniform1f(heightHandle, window.innerHeight);
 }
 
-
 //Compile shader and combine with source
-function compileShader(shaderSource, shaderType){
+function compileShader(shaderSource, shaderType) {
   var shader = gl.createShader(shaderType);
   gl.shaderSource(shader, shaderSource);
   gl.compileShader(shader);
-  if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)){
-  	throw "Shader compile failed with: " + gl.getShaderInfoLog(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    throw "Shader compile failed with: " + gl.getShaderInfoLog(shader);
   }
   return shader;
 }
@@ -207,7 +205,7 @@ function compileShader(shaderSource, shaderType){
 function getAttribLocation(program, name) {
   var attributeLocation = gl.getAttribLocation(program, name);
   if (attributeLocation === -1) {
-  	throw 'Cannot find attribute ' + name + '.';
+    throw "Cannot find attribute " + name + ".";
   }
   return attributeLocation;
 }
@@ -215,7 +213,7 @@ function getAttribLocation(program, name) {
 function getUniformLocation(program, name) {
   var attributeLocation = gl.getUniformLocation(program, name);
   if (attributeLocation === -1) {
-  	throw 'Cannot find uniform ' + name + '.';
+    throw "Cannot find uniform " + name + ".";
   }
   return attributeLocation;
 }
@@ -234,12 +232,16 @@ gl.linkProgram(program);
 
 gl.useProgram(program);
 
-//Set up rectangle covering entire canvas 
+//Set up rectangle covering entire canvas
 var vertexData = new Float32Array([
-  -1.0,  1.0, 	// top left
-  -1.0, -1.0, 	// bottom left
-   1.0,  1.0, 	// top right
-   1.0, -1.0, 	// bottom right
+  -1.0,
+  1.0, // top left
+  -1.0,
+  -1.0, // bottom left
+  1.0,
+  1.0, // top right
+  1.0,
+  -1.0, // bottom right
 ]);
 
 //Create vertex buffer
@@ -248,29 +250,29 @@ gl.bindBuffer(gl.ARRAY_BUFFER, vertexDataBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
 
 // Layout of our data in the vertex buffer
-var positionHandle = getAttribLocation(program, 'position');
+var positionHandle = getAttribLocation(program, "position");
 
 gl.enableVertexAttribArray(positionHandle);
-gl.vertexAttribPointer(positionHandle,
-	2, 			// position is a vec2
-	gl.FLOAT, 	// each component is a float
-	false, 		// don't normalize values
-	2 * 4, 		// two floats per vertex, 4 bytes each
-	0 			// offset into buffer
+gl.vertexAttribPointer(
+  positionHandle,
+  2, // position is a vec2
+  gl.FLOAT, // each component is a float
+  false, // don't normalize values
+  2 * 4, // two floats per vertex, 4 bytes each
+  0 // offset into buffer
 );
 
 //Set uniform handles
-var widthHandle = getUniformLocation(program, 'width');
-var heightHandle = getUniformLocation(program, 'height');
-var timeHandle = getUniformLocation(program, 'time');
-var scaleFactorHandle = getUniformLocation(program, 'scaleFactor');
+var widthHandle = getUniformLocation(program, "width");
+var heightHandle = getUniformLocation(program, "height");
+var timeHandle = getUniformLocation(program, "time");
+var scaleFactorHandle = getUniformLocation(program, "scaleFactor");
 
 var baseScale = 0.000013;
 if (window.innerWidth < 768) {
-    baseScale *= 2.5; // aumenta em 50% em mobile
+  baseScale *= 2.5; // aumenta em 50% em mobile
 }
 gl.uniform1f(scaleFactorHandle, baseScale);
-
 
 gl.uniform1f(widthHandle, canvas.width);
 gl.uniform1f(heightHandle, canvas.height);
@@ -279,15 +281,15 @@ gl.uniform1f(heightHandle, canvas.height);
 gl.viewport(0, 0, canvas.width, canvas.height);
 
 function animate() {
-	time += 0.02;
+  time += 0.02;
 
-	//Set uniforms
-	gl.uniform1f(timeHandle, time);
+  //Set uniforms
+  gl.uniform1f(timeHandle, time);
 
-	//Draw the rectangle
-	gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  //Draw the rectangle
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
-	requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 }
 
 animate();
@@ -295,48 +297,54 @@ animate();
 // ========== ÁUDIO E TEXTO ==========
 
 // Toca o áudio no primeiro toque ou clique do usuário
-document.addEventListener('DOMContentLoaded', () => {
-    const instrumental = document.getElementById('instrumental');
-    const uify = document.getElementById('uify');
-    const button = document.querySelector('.heart-button');
-    const message = document.getElementById('message');
+document.addEventListener("DOMContentLoaded", () => {
+  const instrumental = document.getElementById("instrumental");
+  const uify = document.getElementById("uify");
+  const button = document.querySelector(".heart-button");
+  const message = document.getElementById("message");
 
-    let instrumentalStarted = false;
+  let instrumentalStarted = false;
 
-    // Clique em qualquer lugar do body EXCETO no botão
-    document.body.addEventListener('click', (e) => {
-        if (button.contains(e.target)) return; // evita conflito com o botão
+  // Clique em qualquer lugar do body EXCETO no botão
+  document.body.addEventListener("click", (e) => {
+    if (button.contains(e.target)) return; // evita conflito com o botão
 
-        if (!instrumentalStarted) {
-            instrumental.play().then(() => {
-                console.log("Instrumental tocando.");
-                instrumentalStarted = true;
-            }).catch(err => {
-                console.warn("Erro ao tocar o instrumental:", err);
-            });
-        }
-    });
-
-    // Clique no botão-coração
-    button.addEventListener('click', (e) => {
-        e.stopPropagation(); // evita que clique no botão dispare o evento do body
-
-        // Parar instrumental
-        if (!instrumental.paused) {
-            instrumental.pause();
-            console.log("Instrumental parado.");
-        }
-
-        // Tocar UIFY
-        uify.currentTime = 33;
-        uify.play().then(() => {
-            console.log("UIFY tocando.");
-        }).catch(err => {
-            console.warn("Erro ao tocar UIFY:", err);
+    if (!instrumentalStarted) {
+      instrumental
+        .play()
+        .then(() => {
+          console.log("Instrumental tocando.");
+          instrumentalStarted = true;
+        })
+        .catch((err) => {
+          console.warn("Erro ao tocar o instrumental:", err);
         });
+    }
+  });
 
-        // Mostrar mensagem
-        const text = `Hey there,
+  // Clique no botão-coração
+  button.addEventListener("click", (e) => {
+    e.stopPropagation(); // evita que clique no botão dispare o evento do body
+
+    // Parar instrumental
+    if (!instrumental.paused) {
+      instrumental.pause();
+      console.log("Instrumental parado.");
+    }
+
+    // Tocar UIFY
+    uify.currentTime = 33;
+    uify
+      .play()
+      .then(() => {
+        console.log("UIFY tocando.");
+      })
+      .catch((err) => {
+        console.warn("Erro ao tocar UIFY:", err);
+      });
+
+    // Mostrar mensagem
+    const text = `Hey there,
 You have been a source of strength and support for me. I'm glad that you're a part of my life.
 
 I fell in love with u not for how u look, just for who you are.
@@ -347,32 +355,34 @@ I was alone in life, but when you came into my life, you brought colours with yo
 You make me smile so easily. Can you be there, to do it forever?
 I'm not sure what life could bring you. I'm not sure if dreams do come true. I'm not sure what love can do. But I'm sure about one thing. I love you`;
 
-        let i = 0;
-        message.textContent = '';
-        message.classList.add('show');
+    let i = 0;
+    message.textContent = "";
+    message.classList.add("show");
 
-        const interval = setInterval(() => {
-            if (i < text.length) {
-                message.textContent += text[i++];
-            } else {
-                clearInterval(interval);
-            }
-        }, 77);
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        message.textContent += text[i++];
+      } else {
+        clearInterval(interval);
+      }
+    }, 77);
 
-        button.classList.add('fade-out');
-        setTimeout(() => button.remove(), 2000);
+    button.classList.add("fade-out");
+    setTimeout(() => button.remove(), 2000);
 
-            uify.addEventListener('ended', () => {
-    try {
-        instrumental.play().then(() => {
+    uify.addEventListener("ended", () => {
+      try {
+        instrumental
+          .play()
+          .then(() => {
             console.log("Instrumental resumed after UIFY ended.");
-        }).catch(err => {
+          })
+          .catch((err) => {
             console.warn("Error resuming instrumental:", err);
-        });
-    } catch (e) {
+          });
+      } catch (e) {
         console.warn("General error resuming instrumental:", e);
-    }
-});
-
-});
+      }
+    });
+  });
 });
